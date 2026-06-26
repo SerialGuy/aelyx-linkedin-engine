@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aelyx — Post Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #1C2620;
+    --charcoal-deep: #141B17;
+    --cream: #F0EDE4;
+    --cream-dim: #C9C5B8;
+    --brass: #C9914F;
+    --brass-dim: #8E6736;
+    --line: rgba(240, 237, 228, 0.12);
+    --danger: #B5604A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--charcoal-deep);
+    color: var(--cream);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topbar .wordmark {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+  }
+  .topbar .wordmark span { color: var(--brass); }
+
+  .queue-position {
+    font-size: 13px;
+    color: var(--cream-dim);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 120px 24px;
+    color: var(--cream-dim);
+  }
+  .empty-state .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .review-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--charcoal);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 760px) {
+    .review-card { grid-template-columns: 1fr; }
+  }
+
+  .visual-pane {
+    position: relative;
+    background: var(--charcoal-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .visual-pane svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .visual-pane .frame-tag {
+    position: absolute;
+    bottom: 14px;
+    right: 18px;
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--brass-dim);
+    text-transform: uppercase;
+  }
+
+  .copy-pane {
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brass);
+    border: 1px solid var(--brass-dim);
+    padding: 4px 9px;
+    border-radius: 100px;
+  }
+
+  .hook {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 1.28;
+    font-weight: 500;
+    margin: 0 0 18px;
+    color: var(--cream);
+  }
+
+  .body-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cream-dim);
+    white-space: pre-wrap;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .cta-line {
+    font-size: 14px;
+    color: var(--brass);
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+
+  button {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 12px 22px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  button:hover { opacity: 0.85; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-approve {
+    background: var(--brass);
+    color: var(--charcoal-deep);
+    flex: 1;
+  }
+  .btn-skip {
+    background: transparent;
+    color: var(--cream-dim);
+    border: 1px solid var(--line);
+  }
+
+  .status-banner {
+    font-size: 13px;
+    color: var(--cream-dim);
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .archive-section {
+    margin-top: 64px;
+  }
+  .archive-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    color: var(--cream-dim);
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+  }
+  .archive-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--cream-dim);
+  }
+  .archive-row .archive-status {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+  }
+  .status-published { color: #8FAF8A; }
+  .status-ready_for_manual_post { color: var(--brass); }
+  .status-skipped { color: var(--cream-dim); opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wordmark">aelyx <span>/</span> post review</div>
+  <div class="queue-position" id="queuePosition"></div>
+</div>
+
+<main id="main">
+  <!-- populated by JS -->
+</main>
+
+<script>
+  // ---- CONFIGURE THESE TWO VALUES once your repo is pushed ----
+  const GITHUB_REPO = "YOUR_GITHUB_USERNAME/aelyx-linkedin-engine"; // e.g. "aelyx/aelyx-linkedin-engine"
+  const GITHUB_TOKEN_NOTE = "Approval triggers a repository_dispatch event — see README for the one-time setup of a fine-grained PAT stored in your browser's session only, never committed to the repo.";
+  // ---------------------------------------------------------------
+
+  let queue = [];
+  let currentIndex = 0;
+
+  async function loadQueue() {
+    const res = await fetch('data/queue.json?_=' + Date.now());
+    queue = await res.json();
+    renderCurrent();
+  }
+
+  function pendingPosts() {
+    return queue.filter(p => p.status === 'pending_approval');
+  }
+
+  function renderCurrent() {
+    const pending = pendingPosts();
+    const main = document.getElementById('main');
+    const posRow = document.getElementById('queuePosition');
+
+    if (pending.length === 0) {
+      posRow.textContent = '';
+      main.innerHTML = `
+        <div class="empty-state">
+          <div class="mark">All caught up.</div>
+          <div>No posts waiting for review. The next one lands after tomorrow's run.</div>
+        </div>`;
+      renderArchive();
+      return;
+    }
+
+    const post = pending[0];
+    posRow.textContent = `1 of ${pending.length} pending`;
+
+    main.innerHTML = `
+      <div class="review-card">
+        <div class="visual-pane">
+          ${post.svg}
+          <div class="frame-tag">aelyx · ${post.angle.replace('_',' ')}</div>
+        </div>
+        <div class="copy-pane">
+          <div class="meta-row">
+            <span class="tag">${post.angle.replace('_',' ')}</span>
+            <span class="tag">${post.hook_style.replace('_',' ')}</span>
+          </div>
+          <p class="hook">${escapeHtml(post.hook_text)}</p>
+          <div class="body-text">${escapeHtml(post.body)}</div>
+          <div class="cta-line">${escapeHtml(post.cta)}</div>
+          <div class="actions">
+            <button class="btn-approve" id="approveBtn">Approve &amp; publish</button>
+            <button class="btn-skip" id="skipBtn">Skip</button>
+          </div>
+          <div class="status-banner" id="statusBanner"></div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('approveBtn').onclick = () => approvePost(post.id);
+    document.getElementById('skipBtn').onclick = () => skipPost(post.id);
+
+    renderArchive();
+  }
+
+  function renderArchive() {
+    const decided = queue.filter(p => p.status !== 'pending_approval');
+    if (decided.length === 0) return;
+    const main = document.getElementById('main');
+    const rows = decided.slice().reverse().map(p => `
+      <div class="archive-row">
+        <span>${escapeHtml(p.hook_text)}</span>
+        <span class="archive-status status-${p.status}">${p.status.replace(/_/g,' ')}</span>
+      </div>
+    `).join('');
+    main.innerHTML += `
+      <div class="archive-section">
+        <h2>Recent decisions</h2>
+        ${rows}
+      </div>`;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function approvePost(postId) {
+    const banner = document.getElementById('statusBanner');
+    const token = sessionStorage.getItem('aelyx_gh_token');
+    if (!token) {
+      promptForToken();
+      return;
+    }
+    banner.textContent = 'Sending to LinkedIn…';
+    document.getElementById('approveBtn').disabled = true;
+
+    try {
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/dispatches`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event_type: 'approve_post',
+          client_payload: { post_id: postId }
+        })
+      });
+      if (res.status === 204) {
+        banner.textContent = 'Approved — publishing now. This page will update shortly.';
+        setTimeout(loadQueue, 4000);
+      } else {
+        const text = await res.text();
+        banner.textContent = `Something went wrong (${res.status}). ${text}`;
+        document.getElementById('approveBtn').disabled = false;
+      }
+    } catch (e) {
+      banner.textContent = 'Network error — check your connection and try again.';
+      document.getElementById('approveBtn').disabled = false;
+    }
+  }
+
+  function promptForToken() {
+    const banner = document.getElementById('statusBanner');
+    const token = prompt(
+      "One-time setup: paste a GitHub fine-grained personal access token with 'Contents: write' " +
+      "access to this repo. It's stored only in this browser tab's session — never sent anywhere " +
+      "except GitHub's API, never committed anywhere."
+    );
+    if (token) {
+      sessionStorage.setItem('aelyx_gh_token', token.trim());
+      banner.textContent = 'Token saved for this session. Click Approve again.';
+    }
+  }
+
+  async function skipPost(postId) {
+    const banner = document.getElementById('statusBanner');
+    const token = sessionStorage.getItem('aelyx_gh_token');
+    if (!token) {
+      promptForToken();
+      return;
+    }
+    banner.textContent = 'Marking skipped…';
+    try {
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/dispatches`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event_type: 'skip_post',
+          client_payload: { post_id: postId }
+        })
+      });
+      if (res.status === 204) {
+        banner.textContent = 'Skipped. Updating…';
+        setTimeout(loadQueue, 4000);
+      } else {
+        banner.textContent = `Couldn't mark as skipped (${res.status}). Try again.`;
+      }
+    } catch (e) {
+      banner.textContent = 'Network error — try again.';
+    }
+  }
+
+  loadQueue();
+  // Refresh every 60s in case a new post lands or a CI run finishes.
+  setInterval(loadQueue, 60000);
+</script>
+
+</body>
+</html>

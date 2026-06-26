@@ -1,0 +1,46 @@
+name: Publish Approved Post
+
+# Triggered by the dashboard when you tap "Approve". The dashboard calls the
+# GitHub API (repository_dispatch event) which kicks this off — that's how a
+# static page on GitHub Pages can still trigger a real backend action.
+
+on:
+  repository_dispatch:
+    types: [approve_post, skip_post]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Publish the approved post
+        if: github.event.action == 'approve_post'
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_ORG_URN: ${{ secrets.LINKEDIN_ORG_URN }}
+        run: python scripts/publish.py "${{ github.event.client_payload.post_id }}"
+
+      - name: Mark post as skipped
+        if: github.event.action == 'skip_post'
+        run: python scripts/skip_post.py "${{ github.event.client_payload.post_id }}"
+
+      - name: Commit updated status
+        run: |
+          git config user.name "aelyx-content-bot"
+          git config user.email "actions@github.com"
+          git add dashboard/data/queue.json
+          git diff --staged --quiet || git commit -m "Update post status after approval"
+          git push

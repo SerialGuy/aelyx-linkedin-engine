@@ -1,0 +1,59 @@
+name: Daily LinkedIn Post Generation
+
+# This is the actual "runs every day by itself" mechanism. No server needed —
+# GitHub runs this on its own infrastructure on the schedule below.
+
+on:
+  schedule:
+    # 08:00 IST daily = 02:30 UTC. Adjust the cron if you want a different time.
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Number of posts to generate this run (leave blank to use the repo's default POSTS_PER_DAY)"
+        required: false
+        type: string
+
+permissions:
+  contents: write  # needed to commit the updated queue/history back to the repo
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate today's posts
+        env:
+          # Which provider is active. Set as a repo Variable (Settings > Secrets
+          # and variables > Actions > Variables tab) — values: anthropic | openai | gemini
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'anthropic' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # How many posts to generate per day. Set as a repo Variable to change
+          # the default, or pass --count via workflow_dispatch for a one-off run.
+          POSTS_PER_DAY: ${{ vars.POSTS_PER_DAY || '1' }}
+        run: |
+          if [ -n "${{ github.event.inputs.count }}" ]; then
+            python scripts/generate_post.py --count "${{ github.event.inputs.count }}"
+          else
+            python scripts/generate_post.py
+          fi
+
+      - name: Commit updated queue and history
+        run: |
+          git config user.name "aelyx-content-bot"
+          git config user.email "actions@github.com"
+          git add data/post_history.json dashboard/data/queue.json
+          git diff --staged --quiet || git commit -m "Auto-generate daily LinkedIn post(s)"
+          git push
