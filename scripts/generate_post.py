@@ -57,6 +57,27 @@ VISUAL_STYLE_DESCRIPTIONS = {
 }
 
 
+def load_source_material() -> str:
+    """
+    Source material can come from either:
+    - a repo secret (SOURCE_MATERIAL env var) — used when this repo is PUBLIC,
+      so client names and case study details aren't visible to anyone browsing
+      the repo, since secrets are encrypted and never exposed in logs or files
+    - the local data/source_material.md file — used when this repo is PRIVATE,
+      or for local testing
+    Env var takes priority if both are present.
+    """
+    env_value = os.environ.get("SOURCE_MATERIAL")
+    if env_value:
+        return env_value
+    if SOURCE_MATERIAL_PATH.exists():
+        return SOURCE_MATERIAL_PATH.read_text()
+    raise RuntimeError(
+        "No source material found. Either set the SOURCE_MATERIAL repo secret "
+        "(recommended for public repos) or add data/source_material.md (private repos only)."
+    )
+
+
 def extract_json(text: str) -> dict:
     # Model may wrap JSON in markdown fences despite instructions; strip defensively.
     cleaned = re.sub(r"^```json\s*|\s*```$", "", text.strip(), flags=re.MULTILINE)
@@ -183,7 +204,7 @@ def main():
     print(f"Using provider: {active_provider_label()}")
     print(f"Generating {count} post(s) for today's queue...")
 
-    source_material = SOURCE_MATERIAL_PATH.read_text()
+    source_material = load_source_material()
     history = load_history()
 
     QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)

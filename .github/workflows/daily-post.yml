@@ -40,6 +40,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SOURCE_MATERIAL: ${{ secrets.SOURCE_MATERIAL }}
           # How many posts to generate per day. Set as a repo Variable to change
           # the default, or pass --count via workflow_dispatch for a one-off run.
           POSTS_PER_DAY: ${{ vars.POSTS_PER_DAY || '1' }}
