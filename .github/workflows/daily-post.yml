@@ -55,6 +55,6 @@ jobs:
         run: |
           git config user.name "aelyx-content-bot"
           git config user.email "actions@github.com"
-          git add data/post_history.json dashboard/data/queue.json
+          git add data/post_history.json docs/data/queue.json
           git diff --staged --quiet || git commit -m "Auto-generate daily LinkedIn post(s)"
           git push

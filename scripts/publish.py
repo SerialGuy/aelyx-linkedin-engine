@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 
 ROOT = Path(__file__).parent.parent
-QUEUE_PATH = ROOT / "dashboard" / "data" / "queue.json"
+QUEUE_PATH = ROOT / "docs" / "data" / "queue.json"
 
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
 LINKEDIN_ORG_URN = os.environ.get("LINKEDIN_ORG_URN")  # e.g. "urn:li:organization:12345678"

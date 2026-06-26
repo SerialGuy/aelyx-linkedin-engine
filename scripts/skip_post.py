@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-QUEUE_PATH = ROOT / "dashboard" / "data" / "queue.json"
+QUEUE_PATH = ROOT / "docs" / "data" / "queue.json"
 
 
 def main():

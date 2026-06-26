@@ -24,7 +24,7 @@ from llm_provider import call_llm, active_provider_label
 
 ROOT = Path(__file__).parent.parent
 SOURCE_MATERIAL_PATH = ROOT / "data" / "source_material.md"
-QUEUE_PATH = ROOT / "dashboard" / "data" / "queue.json"
+QUEUE_PATH = ROOT / "docs" / "data" / "queue.json"
 
 # Default number of posts generated per run. Override per-run with --count,
 # or change this default to permanently shift how many posts land per day.

@@ -41,6 +41,6 @@ jobs:
         run: |
           git config user.name "aelyx-content-bot"
           git config user.email "actions@github.com"
-          git add dashboard/data/queue.json
+          git add docs/data/queue.json
           git diff --staged --quiet || git commit -m "Update post status after approval"
           git push
