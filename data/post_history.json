@@ -1,3 +1,17 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "angle": "case_study",
+      "hook_style": "contrarian_claim",
+      "visual_style": "minimal_typographic",
+      "client": "Virtuoso CNC",
+      "hook_text": "AI doesn\u2019t always need to answer questions. Sometimes it needs to make a contract stronger.",
+      "body": "For Virtuoso CNC, the challenge wasn\u2019t a chatbot or a dashboard.\n\nIt was trust in machine performance.\n\nThey needed a way to stand behind RPM accuracy in a way that could be clearly committed to in business terms.\n\nAelyx built an IoT-based RPM accuracy guarantee system that connected technical measurement with contractual confidence.\n\nThat is the part many automation conversations miss: the real value is not the sensor, the model, or the interface alone.\n\nIt is what the business can now promise because the system exists.\n\nIn this case, computer vision and IoT work translated into a measurable guarantee for a manufacturing client.",
+      "cta": "If automation cannot change the operating promise, it is probably too shallow.",
+      "image_concept": "A CNC machine spindle with an overlaid RPM monitoring interface and a contract document beside it highlighting an accuracy guarantee clause.",
+      "status": "pending_approval",
+      "id": "post_0001",
+      "timestamp": "2026-06-27T07:34:35.634011+00:00"
+    }
+  ]
 }
