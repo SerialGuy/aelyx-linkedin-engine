@@ -34,9 +34,9 @@ jobs:
 
       - name: Generate today's posts
         env:
-          # Which provider is active. Set as a repo Variable (Settings > Secrets
-          # and variables > Actions > Variables tab) — values: anthropic | openai | gemini
-          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'anthropic' }}
+          # Which provider is active. Set LLM_PROVIDER as a repo Variable or Secret
+          # (Settings > Secrets and variables > Actions) — values: anthropic | openai | gemini
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || secrets.LLM_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
