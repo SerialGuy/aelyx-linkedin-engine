@@ -5,7 +5,7 @@ Calls the active LLM provider (Anthropic, OpenAI, or Gemini — set via the
 LLM_PROVIDER env var) to generate one or more LinkedIn posts (copy + image
 spec) for Aelyx, using forced rotation through content angles, hook styles,
 and visual styles so output doesn't converge into a template — then renders
-each image as SVG and writes everything into the dashboard queue.
+each image as SVG (via structured templates) and writes everything into the docs queue.
 
 Run manually:  python scripts/generate_post.py            # generates POSTS_PER_DAY posts
                python scripts/generate_post.py --count 3   # override count for this run
@@ -21,6 +21,7 @@ from pathlib import Path
 
 from post_history import load_history, choose_next_post_params, record_post
 from llm_provider import call_llm, active_provider_label
+from svg_renderer import render_visual
 
 ROOT = Path(__file__).parent.parent
 SOURCE_MATERIAL_PATH = ROOT / "data" / "source_material.md"
@@ -54,6 +55,55 @@ VISUAL_STYLE_DESCRIPTIONS = {
     "annotated_screenshot_style": "A stylized mockup with one or two callout annotations highlighting a specific detail.",
     "portrait_style_illustration": "A custom illustrative scene relevant to the content — not stock-photo-like, not generic AI/robot imagery.",
     "data_moment": "One real number rendered as the hero of the image, large and confident — not a chart, not a graph axis in sight.",
+}
+
+VISUAL_SPEC_SCHEMAS = {
+    "minimal_typographic": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "headline": "short punchy headline (max 72 chars)",
+  "subheadline": "one supporting line (max 96 chars, optional)"
+}""",
+    "diagram_flow": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "title": "diagram title (max 48 chars)",
+  "steps": [
+    {"label": "step name", "detail": "one short line about this step"},
+    {"label": "step name", "detail": "one short line"},
+    {"label": "step name", "detail": "one short line"}
+  ]
+}""",
+    "before_after_split": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "before_label": "Before",
+  "before_text": "old painful state in one sentence",
+  "after_label": "After",
+  "after_text": "new improved state in one sentence"
+}""",
+    "annotated_screenshot_style": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "screen_title": "UI or product screen title",
+  "callouts": [
+    {"label": "01", "text": "first callout explaining a detail"},
+    {"label": "02", "text": "second callout"}
+  ]
+}""",
+    "data_moment": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "hero_number": "the key figure e.g. 8,400",
+  "hero_label": "what the number represents",
+  "context": "one line of context"
+}""",
+    "portrait_style_illustration": """{
+  "background": "#141B17",
+  "accent": "#hex accent color",
+  "headline": "editorial headline",
+  "scene_line": "one evocative scene-setting line"
+}""",
 }
 
 
@@ -121,60 +171,34 @@ Generate today's post now."""
     return extract_json(raw)
 
 
-def extract_svg(text: str) -> str:
-    """Pull raw SVG from model output; models often wrap it in markdown fences."""
-    if not text or not text.strip():
-        raise ValueError("Model returned empty response for SVG")
-
-    cleaned = text.strip()
-    cleaned = re.sub(r"^```(?:svg|xml)?\s*", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s*```$", "", cleaned, flags=re.MULTILINE)
-
-    svg_match = re.search(r"<svg[\s\S]*?</svg>", cleaned, re.IGNORECASE)
-    if svg_match:
-        return svg_match.group(0)
-
-    if re.search(r"<svg", cleaned, re.IGNORECASE) and not re.search(r"</svg>", cleaned, re.IGNORECASE):
-        raise ValueError(
-            "Model returned truncated SVG (opening <svg> tag found but no closing </svg>)"
-        )
-
-    preview = cleaned[:200].replace("\n", " ")
-    raise ValueError(f"Model did not return valid SVG (response started with: {preview!r})")
-
-
 def generate_image_svg(image_concept: str, visual_style: str, hook_line: str) -> str:
-    system_prompt = """You are a senior brand designer creating LinkedIn post graphics for a \
-sophisticated B2B AI company. You produce clean, professional, eye-catching SVG graphics — \
-never generic stock charts, never cliché "AI brain/circuit" imagery, never default Bootstrap-blue \
-color schemes. Each design should feel intentional and specific to its content, the way a real \
-design agency would approach a one-off social post — not a templated dashboard widget.
+    """Ask the LLM for structured visual content, then render with fixed templates."""
+    system_prompt = """You are a senior brand art director for Aelyx, a B2B AI company.
+Your job is to define the CONTENT of a LinkedIn graphic — headlines, labels, steps, colors.
+You do NOT write SVG, HTML, or layout code. A separate renderer handles design.
 
-Respond with ONLY raw SVG code, starting with <svg and ending with </svg>. No markdown fences, \
-no explanation. Canvas should be viewBox="0 0 1200 1200" (square, LinkedIn-optimized). Use a \
-considered color palette appropriate to the content's mood — choose it fresh each time rather \
-than defaulting to blue/white. Typography should be confident and large. Keep it print-quality clean."""
+Rules:
+- Return ONLY valid JSON matching the schema given. No markdown fences, no commentary.
+- Keep every text field short — it must fit cleanly in a fixed layout.
+- Pick a cohesive dark-theme palette: deep background (#141B17 or similar), warm accent
+  (brass, teal, coral — not default Bootstrap blue), cream/light text.
+- Ground all copy in the image concept. No generic AI imagery language.
+- Never invent statistics not implied by the concept."""
 
-    user_prompt = f"""Visual approach for this post: {VISUAL_STYLE_DESCRIPTIONS[visual_style]}
+    user_prompt = f"""Visual style: {visual_style} — {VISUAL_STYLE_DESCRIPTIONS[visual_style]}
 
 Image concept: {image_concept}
 
-Hook line (may be referenced typographically in the design): "{hook_line}"
+Hook line from the post (use as inspiration, do not paste verbatim unless it fits): "{hook_line}"
 
-Design the SVG now."""
+JSON schema to fill:
+{VISUAL_SPEC_SCHEMAS[visual_style]}
 
-    last_error = None
-    for attempt in range(1, 4):
-        try:
-            raw = call_llm(system_prompt, user_prompt, max_tokens=8000)
-            return extract_svg(raw)
-        except ValueError as e:
-            last_error = e
-            if attempt < 3:
-                print(f"  SVG attempt {attempt}/3 failed ({e}); retrying...", file=sys.stderr)
-            continue
+Return the completed JSON now."""
 
-    raise last_error
+    raw = call_llm(system_prompt, user_prompt, max_tokens=1200)
+    spec = extract_json(raw)
+    return render_visual(visual_style, spec, hook_line)
 
 
 def generate_one_post(history: dict, source_material: str) -> dict:
