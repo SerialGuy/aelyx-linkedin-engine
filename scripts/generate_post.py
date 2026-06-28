@@ -121,6 +121,28 @@ Generate today's post now."""
     return extract_json(raw)
 
 
+def extract_svg(text: str) -> str:
+    """Pull raw SVG from model output; models often wrap it in markdown fences."""
+    if not text or not text.strip():
+        raise ValueError("Model returned empty response for SVG")
+
+    cleaned = text.strip()
+    cleaned = re.sub(r"^```(?:svg|xml)?\s*", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\s*```$", "", cleaned, flags=re.MULTILINE)
+
+    svg_match = re.search(r"<svg[\s\S]*?</svg>", cleaned, re.IGNORECASE)
+    if svg_match:
+        return svg_match.group(0)
+
+    if re.search(r"<svg", cleaned, re.IGNORECASE) and not re.search(r"</svg>", cleaned, re.IGNORECASE):
+        raise ValueError(
+            "Model returned truncated SVG (opening <svg> tag found but no closing </svg>)"
+        )
+
+    preview = cleaned[:200].replace("\n", " ")
+    raise ValueError(f"Model did not return valid SVG (response started with: {preview!r})")
+
+
 def generate_image_svg(image_concept: str, visual_style: str, hook_line: str) -> str:
     system_prompt = """You are a senior brand designer creating LinkedIn post graphics for a \
 sophisticated B2B AI company. You produce clean, professional, eye-catching SVG graphics — \
@@ -141,11 +163,18 @@ Hook line (may be referenced typographically in the design): "{hook_line}"
 
 Design the SVG now."""
 
-    raw = call_llm(system_prompt, user_prompt, max_tokens=4000)
-    svg_match = re.search(r"<svg.*?</svg>", raw, re.DOTALL)
-    if not svg_match:
-        raise ValueError("Model did not return valid SVG")
-    return svg_match.group(0)
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            raw = call_llm(system_prompt, user_prompt, max_tokens=8000)
+            return extract_svg(raw)
+        except ValueError as e:
+            last_error = e
+            if attempt < 3:
+                print(f"  SVG attempt {attempt}/3 failed ({e}); retrying...", file=sys.stderr)
+            continue
+
+    raise last_error
 
 
 def generate_one_post(history: dict, source_material: str) -> dict:

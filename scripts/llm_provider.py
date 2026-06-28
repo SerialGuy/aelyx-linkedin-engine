@@ -24,7 +24,7 @@ PROVIDER = os.environ.get("LLM_PROVIDER", "anthropic").lower().strip()
 # a different model without touching code.
 DEFAULT_MODELS = {
     "anthropic": "claude-sonnet-4-6",
-    "openai": "gpt-5.5",
+    "openai": "gpt-5-mini",
     "gemini": "gemini-3.5-flash",
 }
 
@@ -82,7 +82,14 @@ def _call_openai(system_prompt: str, user_prompt: str, max_tokens: int) -> str:
     )
     resp.raise_for_status()
     data = resp.json()
-    return data["choices"][0]["message"]["content"]
+    content = data["choices"][0]["message"].get("content")
+    if not content or not str(content).strip():
+        finish_reason = data["choices"][0].get("finish_reason", "unknown")
+        raise RuntimeError(
+            f"OpenAI returned empty content (finish_reason={finish_reason}). "
+            "Try a higher max_tokens limit or a different model."
+        )
+    return content
 
 
 def _call_gemini(system_prompt: str, user_prompt: str, max_tokens: int) -> str:
@@ -106,7 +113,10 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_tokens: int) -> str:
     resp.raise_for_status()
     data = resp.json()
     parts = data["candidates"][0]["content"]["parts"]
-    return "".join(p.get("text", "") for p in parts)
+    text = "".join(p.get("text", "") for p in parts)
+    if not text.strip():
+        raise RuntimeError("Gemini returned empty content. Try a higher max_tokens limit.")
+    return text
 
 
 _PROVIDER_FUNCS = {
