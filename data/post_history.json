@@ -12,6 +12,19 @@
       "status": "pending_approval",
       "id": "post_0001",
       "timestamp": "2026-06-27T07:34:35.634011+00:00"
+    },
+    {
+      "angle": "product_education",
+      "hook_style": "specific_number",
+      "visual_style": "diagram_flow",
+      "client": "Farrington Pediatrics",
+      "hook_text": "8,400 \u2014 the size of the constrained dictionary we built to make a telephony voice agent understand a specialized language.",
+      "body": "Dental clinics need briefing and call workflows that match how clinicians actually work \u2014 not long notes, not fragmented handoffs.\n\nDentalOS bundles Aria (a telephony-capable voice agent) with Nova (a clinical briefing tool) to turn patient records and visit context into concise, clinician-ready briefings and hands-free call handling.\n\nWe\u2019ve adapted Nova for a pediatric practice (Farrington Pediatrics) and built constrained-language voice stacks elsewhere, so the system isn\u2019t just generic speech-to-text \u2014 it\u2019s tuned to clinical workflow and telephony constraints.\n\nIf you need briefings that fit a dentist\u2019s day, DentalOS is designed around that buyer problem, not feature lists.",
+      "cta": "Reply if you want a short walkthrough of how Nova and Aria fit into a clinic workflow.",
+      "image_concept": "A dentist reviewing a short clinical briefing labeled 'Nova' on a tablet while a headset and a phone icon suggest 'Aria' managing incoming calls.",
+      "status": "pending_approval",
+      "id": "post_0002",
+      "timestamp": "2026-06-28T06:53:43.880143+00:00"
     }
   ]
 }
