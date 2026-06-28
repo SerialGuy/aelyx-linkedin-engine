@@ -25,6 +25,19 @@
       "status": "pending_approval",
       "id": "post_0002",
       "timestamp": "2026-06-28T06:53:43.880143+00:00"
+    },
+    {
+      "angle": "thought_leadership",
+      "hook_style": "before_after",
+      "visual_style": "before_after_split",
+      "client": null,
+      "hook_text": "Before: retention lived in scattered call notes and a GST accounting ERP. After: one AI brain, voice agent, WhatsApp automation and CRM sharing the same data.",
+      "body": "Most AI projects fail because they start with a model and forget the plumbing.\n\nWe built a four\u2011pillar retention stack for a retail client: an AI Intelligence Brain, a voice agent, WhatsApp automation (Wagent) and a CRM dashboard \u2014 all integrated with the client's ACCOUNT GST ERP and SIP telephony. That integration, not the model headline, made the workflows reliable.\n\nWe also tuned a Hinglish outbound voice agent via live transcript analysis to remove robotic patterns \u2014 small conversation fixes that preserve trust.\n\nIf you want AI to change outcomes, design integrations and conversation hygiene before chasing features. #AI #Automation #CustomerRetention",
+      "cta": "If you're mapping an AI roadmap, I can share what to wire up first.",
+      "image_concept": "Split image: left side messy\u2014paper notes, phone logs, and an ERP screen; right side a clean dashboard showing labeled modules (AI Brain, Voice Agent, Wagent, CRM) with arrows linking them to an 'ACCOUNT GST ERP' icon and a SIP telephony handset.",
+      "status": "pending_approval",
+      "id": "post_0003",
+      "timestamp": "2026-06-28T16:39:31.878357+00:00"
     }
   ]
 }
