@@ -97,6 +97,14 @@
     height: auto;
     display: block;
   }
+  .visual-pane .svg-host {
+    width: 100%;
+  }
+  .visual-pane .svg-host svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
   .visual-pane .frame-tag {
     position: absolute;
     bottom: 14px;
@@ -235,87 +243,181 @@
 </main>
 
 <script>
-  // ---- CONFIGURE THESE TWO VALUES once your repo is pushed ----
-  const GITHUB_REPO = "SerialGuy/aelyx-linkedin-engine"; // e.g. "aelyx/aelyx-linkedin-engine"
-  const GITHUB_TOKEN_NOTE = "Approval triggers a repository_dispatch event — see README for the one-time setup of a fine-grained PAT stored in your browser's session only, never committed to the repo.";
-  // ---------------------------------------------------------------
+  // Override in a <meta name="github-repo" content="owner/repo"> tag if needed.
+  // Otherwise auto-detected from github.io project pages URLs.
+  const GITHUB_REPO = detectGithubRepo() || "SerialGuy/aelyx-linkedin-engine";
 
   let queue = [];
-  let currentIndex = 0;
+
+  function detectGithubRepo() {
+    const meta = document.querySelector('meta[name="github-repo"]')?.content?.trim();
+    if (meta) return meta;
+
+    const host = window.location.hostname;
+    if (!host.endsWith('github.io')) return null;
+
+    const owner = host.replace('.github.io', '');
+    const project = window.location.pathname.split('/').filter(Boolean)[0];
+    return project ? `${owner}/${project}` : null;
+  }
+
+  function formatLabel(value) {
+    return String(value || '').replace(/_/g, ' ');
+  }
 
   async function loadQueue() {
-    const res = await fetch('data/queue.json?_=' + Date.now());
-    queue = await res.json();
-    renderCurrent();
+    try {
+      const res = await fetch('data/queue.json?_=' + Date.now());
+      if (!res.ok) throw new Error(`Could not load queue (${res.status})`);
+      queue = await res.json();
+      renderCurrent();
+    } catch (err) {
+      document.getElementById('main').innerHTML = `
+        <div class="empty-state">
+          <div class="mark">Could not load queue.</div>
+          <div>${escapeHtml(err.message)}</div>
+        </div>`;
+    }
   }
 
   function pendingPosts() {
     return queue.filter(p => p.status === 'pending_approval');
   }
 
+  function mountSvg(container, svgString) {
+    container.replaceChildren();
+    if (!svgString) {
+      container.textContent = 'No preview available.';
+      return;
+    }
+
+    // Never inject SVG via innerHTML — embedded <style> tags break the page DOM
+    // and silently prevent Approve/Skip buttons from mounting.
+    const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+    const err = doc.querySelector('parsererror');
+    if (err) {
+      container.textContent = 'Preview unavailable (invalid SVG).';
+      return;
+    }
+    container.appendChild(doc.documentElement);
+  }
+
   function renderCurrent() {
     const pending = pendingPosts();
     const main = document.getElementById('main');
     const posRow = document.getElementById('queuePosition');
+    main.replaceChildren();
 
     if (pending.length === 0) {
       posRow.textContent = '';
-      main.innerHTML = `
-        <div class="empty-state">
-          <div class="mark">All caught up.</div>
-          <div>No posts waiting for review. The next one lands after tomorrow's run.</div>
-        </div>`;
-      renderArchive();
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML = `
+        <div class="mark">All caught up.</div>
+        <div>No posts waiting for review. The next one lands after tomorrow's run.</div>`;
+      main.appendChild(empty);
+      renderArchive(main);
       return;
     }
 
     const post = pending[0];
     posRow.textContent = `1 of ${pending.length} pending`;
 
-    main.innerHTML = `
-      <div class="review-card">
-        <div class="visual-pane">
-          ${post.svg}
-          <div class="frame-tag">aelyx · ${post.angle.replace('_',' ')}</div>
-        </div>
-        <div class="copy-pane">
-          <div class="meta-row">
-            <span class="tag">${post.angle.replace('_',' ')}</span>
-            <span class="tag">${post.hook_style.replace('_',' ')}</span>
-          </div>
-          <p class="hook">${escapeHtml(post.hook_text)}</p>
-          <div class="body-text">${escapeHtml(post.body)}</div>
-          <div class="cta-line">${escapeHtml(post.cta)}</div>
-          <div class="actions">
-            <button class="btn-approve" id="approveBtn">Approve &amp; publish</button>
-            <button class="btn-skip" id="skipBtn">Skip</button>
-          </div>
-          <div class="status-banner" id="statusBanner"></div>
-        </div>
-      </div>
-    `;
+    const card = document.createElement('div');
+    card.className = 'review-card';
 
-    document.getElementById('approveBtn').onclick = () => approvePost(post.id);
-    document.getElementById('skipBtn').onclick = () => skipPost(post.id);
+    const visualPane = document.createElement('div');
+    visualPane.className = 'visual-pane';
+    const svgHost = document.createElement('div');
+    svgHost.className = 'svg-host';
+    mountSvg(svgHost, post.svg);
+    visualPane.appendChild(svgHost);
 
-    renderArchive();
+    const frameTag = document.createElement('div');
+    frameTag.className = 'frame-tag';
+    frameTag.textContent = `aelyx · ${formatLabel(post.angle)}`;
+    visualPane.appendChild(frameTag);
+
+    const copyPane = document.createElement('div');
+    copyPane.className = 'copy-pane';
+
+    const metaRow = document.createElement('div');
+    metaRow.className = 'meta-row';
+    for (const label of [post.angle, post.hook_style]) {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = formatLabel(label);
+      metaRow.appendChild(tag);
+    }
+
+    const hook = document.createElement('p');
+    hook.className = 'hook';
+    hook.textContent = post.hook_text;
+
+    const body = document.createElement('div');
+    body.className = 'body-text';
+    body.textContent = post.body;
+
+    const cta = document.createElement('div');
+    cta.className = 'cta-line';
+    cta.textContent = post.cta;
+
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+
+    const approveBtn = document.createElement('button');
+    approveBtn.className = 'btn-approve';
+    approveBtn.id = 'approveBtn';
+    approveBtn.type = 'button';
+    approveBtn.textContent = 'Approve & publish';
+    approveBtn.addEventListener('click', () => approvePost(post.id));
+
+    const skipBtn = document.createElement('button');
+    skipBtn.className = 'btn-skip';
+    skipBtn.id = 'skipBtn';
+    skipBtn.type = 'button';
+    skipBtn.textContent = 'Skip';
+    skipBtn.addEventListener('click', () => skipPost(post.id));
+
+    const banner = document.createElement('div');
+    banner.className = 'status-banner';
+    banner.id = 'statusBanner';
+
+    actions.append(approveBtn, skipBtn);
+    copyPane.append(metaRow, hook, body, cta, actions, banner);
+    card.append(visualPane, copyPane);
+    main.appendChild(card);
+
+    renderArchive(main);
   }
 
-  function renderArchive() {
+  function renderArchive(main) {
     const decided = queue.filter(p => p.status !== 'pending_approval');
     if (decided.length === 0) return;
-    const main = document.getElementById('main');
-    const rows = decided.slice().reverse().map(p => `
-      <div class="archive-row">
-        <span>${escapeHtml(p.hook_text)}</span>
-        <span class="archive-status status-${p.status}">${p.status.replace(/_/g,' ')}</span>
-      </div>
-    `).join('');
-    main.innerHTML += `
-      <div class="archive-section">
-        <h2>Recent decisions</h2>
-        ${rows}
-      </div>`;
+
+    const section = document.createElement('div');
+    section.className = 'archive-section';
+
+    const heading = document.createElement('h2');
+    heading.textContent = 'Recent decisions';
+    section.appendChild(heading);
+
+    for (const p of decided.slice().reverse()) {
+      const row = document.createElement('div');
+      row.className = 'archive-row';
+
+      const hook = document.createElement('span');
+      hook.textContent = p.hook_text;
+
+      const status = document.createElement('span');
+      status.className = `archive-status status-${p.status}`;
+      status.textContent = formatLabel(p.status);
+
+      row.append(hook, status);
+      section.appendChild(row);
+    }
+
+    main.appendChild(section);
   }
 
   function escapeHtml(str) {
@@ -324,90 +426,96 @@
     return div.innerHTML;
   }
 
-  async function approvePost(postId) {
-    const banner = document.getElementById('statusBanner');
-    const token = sessionStorage.getItem('aelyx_gh_token');
-    if (!token) {
-      promptForToken();
-      return;
-    }
-    banner.textContent = 'Sending to LinkedIn…';
-    document.getElementById('approveBtn').disabled = true;
+  function requireToken() {
+    let token = sessionStorage.getItem('aelyx_gh_token');
+    if (token) return token.trim();
 
-    try {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/dispatches`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          event_type: 'approve_post',
-          client_payload: { post_id: postId }
-        })
-      });
-      if (res.status === 204) {
-        banner.textContent = 'Approved — publishing now. This page will update shortly.';
-        setTimeout(loadQueue, 4000);
-      } else {
-        const text = await res.text();
-        banner.textContent = `Something went wrong (${res.status}). ${text}`;
-        document.getElementById('approveBtn').disabled = false;
-      }
-    } catch (e) {
-      banner.textContent = 'Network error — check your connection and try again.';
-      document.getElementById('approveBtn').disabled = false;
-    }
+    token = prompt(
+      "One-time setup: paste a GitHub fine-grained personal access token with " +
+      "'Contents: Read and write' and 'Actions: Read and write' on this repo. " +
+      "It is stored only in this browser session and sent only to GitHub's API."
+    );
+    if (!token) return null;
+
+    token = token.trim();
+    sessionStorage.setItem('aelyx_gh_token', token);
+    return token;
   }
 
-  function promptForToken() {
+  async function dispatchWorkflow(eventType, postId) {
+    const token = requireToken();
+    if (!token) {
+      throw new Error('GitHub token required. Paste a PAT when prompted, then try again.');
+    }
+
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/dispatches`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      body: JSON.stringify({
+        event_type: eventType,
+        client_payload: { post_id: postId },
+      }),
+    });
+
+    if (res.status === 204) return;
+
+    let detail = await res.text();
+    try {
+      const json = JSON.parse(detail);
+      detail = json.message || detail;
+    } catch (_) {}
+
+    if (res.status === 401 || res.status === 403) {
+      sessionStorage.removeItem('aelyx_gh_token');
+      throw new Error(`${res.status}: ${detail}. Token cleared — paste a new one and retry.`);
+    }
+
+    throw new Error(`${res.status}: ${detail}`);
+  }
+
+  function setBusy(busy) {
+    const approveBtn = document.getElementById('approveBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    if (approveBtn) approveBtn.disabled = busy;
+    if (skipBtn) skipBtn.disabled = busy;
+  }
+
+  async function approvePost(postId) {
     const banner = document.getElementById('statusBanner');
-    const token = prompt(
-      "One-time setup: paste a GitHub fine-grained personal access token with 'Contents: write' " +
-      "access to this repo. It's stored only in this browser tab's session — never sent anywhere " +
-      "except GitHub's API, never committed anywhere."
-    );
-    if (token) {
-      sessionStorage.setItem('aelyx_gh_token', token.trim());
-      banner.textContent = 'Token saved for this session. Click Approve again.';
+    banner.textContent = 'Sending approval…';
+    setBusy(true);
+
+    try {
+      await dispatchWorkflow('approve_post', postId);
+      banner.textContent = 'Approved — publishing now. This page will update shortly.';
+      setTimeout(loadQueue, 4000);
+    } catch (e) {
+      banner.textContent = e.message || 'Approval failed. Try again.';
+      setBusy(false);
     }
   }
 
   async function skipPost(postId) {
     const banner = document.getElementById('statusBanner');
-    const token = sessionStorage.getItem('aelyx_gh_token');
-    if (!token) {
-      promptForToken();
-      return;
-    }
     banner.textContent = 'Marking skipped…';
+    setBusy(true);
+
     try {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/dispatches`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          event_type: 'skip_post',
-          client_payload: { post_id: postId }
-        })
-      });
-      if (res.status === 204) {
-        banner.textContent = 'Skipped. Updating…';
-        setTimeout(loadQueue, 4000);
-      } else {
-        banner.textContent = `Couldn't mark as skipped (${res.status}). Try again.`;
-      }
+      await dispatchWorkflow('skip_post', postId);
+      banner.textContent = 'Skipped. Updating…';
+      setTimeout(loadQueue, 4000);
     } catch (e) {
-      banner.textContent = 'Network error — try again.';
+      banner.textContent = e.message || 'Skip failed. Try again.';
+      setBusy(false);
     }
   }
 
   loadQueue();
-  // Refresh every 60s in case a new post lands or a CI run finishes.
   setInterval(loadQueue, 60000);
 </script>
 
