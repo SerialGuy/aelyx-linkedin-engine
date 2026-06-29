@@ -38,6 +38,19 @@
       "status": "pending_approval",
       "id": "post_0003",
       "timestamp": "2026-06-28T16:39:31.878357+00:00"
+    },
+    {
+      "angle": "behind_the_build",
+      "hook_style": "question",
+      "visual_style": "annotated_screenshot_style",
+      "client": null,
+      "hook_text": "How do you stop an outbound voice agent from re-introducing itself mid-call and sounding like a script-reading robot?",
+      "body": "We ran into three repeatable failure modes while building outbound voice agents: mid-call re-introductions, an \"inbound\" posture leaking into outbound calls, and scripted dialogue baked directly into the prompt.\n\nThe fix wasn't a bigger model \u2014 it was data and iteration. We used live transcript analysis to surface exactly where those patterns occurred, then refined prompts and call-behaviour constraints to eliminate the triggers. Each change was validated against live calls, not synthetic tests.\n\nThe result: fewer robotic moments and a consistent outbound posture in real conversations. For voice agents, the transcript is your single best debugging tool. #voiceAI #promptengineering",
+      "cta": "If you want a short walkthrough of our transcript-driven debugging approach, I can share one.",
+      "image_concept": "Split-screen: left side shows a live call transcript with lines highlighted and labeled (\"mid-call re-intro\", \"inbound posture bleed\", \"scripted turn\"); right side shows a developer editing a prompt on a laptop with a waveform of the call above.",
+      "status": "pending_approval",
+      "id": "post_0004",
+      "timestamp": "2026-06-29T07:11:34.913300+00:00"
     }
   ]
 }
