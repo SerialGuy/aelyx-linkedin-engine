@@ -51,6 +51,32 @@
       "status": "pending_approval",
       "id": "post_0004",
       "timestamp": "2026-06-29T07:11:34.913300+00:00"
+    },
+    {
+      "angle": "founder_perspective",
+      "hook_style": "scene_setting",
+      "visual_style": "portrait_style_illustration",
+      "client": null,
+      "hook_text": "One call was about a Hinglish outbound voice agent in Indore. The next was about clinical briefing workflows for a US clinic.",
+      "body": "That contrast has shaped how we build Aelyx.\n\nIndian SMBs often need AI to sit inside very practical business realities: WhatsApp follow-ups, voice calls, CRM discipline, ERP context, and quotation workflows.\n\nUS healthcare buyers ask different questions: how a voice agent behaves, how a briefing tool supports the clinic team, and how safely the workflow fits into daily operations.\n\nThe technology stack may share patterns, but the product thinking cannot be copied and pasted.\n\nBuilding from Indore for both markets has forced us to stay specific. Language matters. Call behavior matters. Existing software matters. The handoff from automation to a human matters.\n\nThat is the work I trust most: not demos that look impressive, but systems that survive the actual operating environment.",
+      "cta": "If you are building with AI, start with the workflow, not the buzzword.",
+      "image_concept": "A split-screen image of an Aelyx workspace: one monitor showing a WhatsApp/CRM workflow for an Indian business, another showing a clinic briefing interface, with a subtle Indore-to-US connection line in the background.",
+      "status": "pending_approval",
+      "id": "post_0005",
+      "timestamp": "2026-06-29T11:43:32.883939+00:00"
+    },
+    {
+      "angle": "case_study",
+      "hook_style": "blunt_statement",
+      "visual_style": "data_moment",
+      "client": null,
+      "hook_text": "Messy quotations slow sales.",
+      "body": "For a commercial kitchen equipment dealer, the problem was not lead generation.\n\nIt was what happened after interest came in.\n\nRough quotations had to be converted into proper client-ready proposals. Margins needed to be checked before the quote moved forward. The sales process needed structure without forcing the team into a rigid new workflow.\n\nAelyx built a full AI + ERP proposal and sales package around that gap.\n\nTwo tools became central:\n\nA Quotation & Margin Analyzer.\nA Rough-to-Proper Quotation Generator.\n\nThe outcome was practical: a quoting workflow that could support the sales team more consistently, and a package now being expanded for other Indore retail showroom use cases.",
+      "cta": "If your sales process depends on manual quotation cleanup, it is worth examining.",
+      "image_concept": "A side-by-side screen mockup showing a rough handwritten-style quotation on the left and a clean ERP-generated proposal with margin checks on the right.",
+      "status": "pending_approval",
+      "id": "post_0006",
+      "timestamp": "2026-06-29T11:44:26.052914+00:00"
     }
   ]
 }
