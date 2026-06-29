@@ -24,7 +24,7 @@ PROVIDER = os.environ.get("LLM_PROVIDER", "anthropic").lower().strip()
 # a different model without touching code.
 DEFAULT_MODELS = {
     "anthropic": "claude-sonnet-4-6",
-    "openai": "gpt-5-mini",
+    "openai": "gpt-5.5",
     "gemini": "gemini-3.5-flash",
 }
 
