@@ -77,6 +77,19 @@
       "status": "pending_approval",
       "id": "post_0006",
       "timestamp": "2026-06-29T11:44:26.052914+00:00"
+    },
+    {
+      "angle": "product_education",
+      "hook_style": "contrarian_claim",
+      "visual_style": "minimal_typographic",
+      "client": null,
+      "hook_text": "More messages won\u2019t fix a broken WhatsApp sales process.",
+      "body": "For many retail, real estate, education, clinic, restaurant, and finance teams, WhatsApp is already the busiest channel.\n\nThe problem is not adoption.\n\nThe problem is what happens after the first message: inquiries sit in personal chats, follow-ups depend on memory, and every team member answers the same questions slightly differently.\n\nWagent was built for that gap.\n\nIt turns WhatsApp from a loose conversation channel into an automation layer around the actual buyer journey \u2014 capturing intent, moving the conversation forward, and keeping the team from treating every lead like a fresh manual task.\n\nNot as a generic chatbot.\n\nAs vertical-specific WhatsApp automation designed for the way Indian businesses already sell, support, and follow up.",
+      "cta": "If WhatsApp is where your pipeline lives, it deserves a system behind it.",
+      "image_concept": "A clean split-screen showing chaotic personal WhatsApp chats on one side and an organized Wagent automation dashboard with retail, clinic, and real estate inquiry queues on the other.",
+      "status": "pending_approval",
+      "id": "post_0007",
+      "timestamp": "2026-06-30T06:38:04.599159+00:00"
     }
   ]
 }
