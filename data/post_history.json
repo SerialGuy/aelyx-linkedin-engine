@@ -90,6 +90,19 @@
       "status": "pending_approval",
       "id": "post_0007",
       "timestamp": "2026-06-30T06:38:04.599159+00:00"
+    },
+    {
+      "angle": "thought_leadership",
+      "hook_style": "specific_number",
+      "visual_style": "diagram_flow",
+      "client": null,
+      "hook_text": "4 connected systems will usually beat 1 impressive chatbot.",
+      "body": "In one retention build, the important work was not \u201cadding AI.\u201d\n\nIt was connecting four pieces that already had to act as one:\n\nAn AI Intelligence Brain.\nA voice agent.\nWhatsApp automation.\nA CRM dashboard.\n\nThen we tied the flow into the existing ACCOUNT GST ERP system and provisioned SIP telephony around it.\n\nThat is the difference between AI as a demo and AI as business infrastructure.\n\nA chatbot can answer.\nA connected system can remember, route, follow up, update records, and keep the next action visible to the team.\n\nMost businesses do not need more isolated AI tools.\nThey need fewer gaps between the tools they already depend on.",
+      "cta": "Build the workflow before you celebrate the model.",
+      "image_concept": "A clean workflow diagram showing an AI brain at the center connected to voice calls, WhatsApp, CRM dashboard, GST ERP, and SIP telephony.",
+      "status": "pending_approval",
+      "id": "post_0008",
+      "timestamp": "2026-07-01T06:50:58.841901+00:00"
     }
   ]
 }
