@@ -103,6 +103,19 @@
       "status": "pending_approval",
       "id": "post_0008",
       "timestamp": "2026-07-01T06:50:58.841901+00:00"
+    },
+    {
+      "angle": "behind_the_build",
+      "hook_style": "before_after",
+      "visual_style": "before_after_split",
+      "client": null,
+      "hook_text": "Old state: a voice agent that could drift into call-centre theatre. New state: an outbound caller that stays in role.",
+      "body": "One of the harder parts of building voice agents is not the voice.\n\nIt is preventing behavioural drift.\n\nFor a Hinglish B2B outbound workflow in pest control, we had to refine the agent through live transcript analysis \u2014 not assumptions from a prompt document.\n\nThe issues were subtle but damaging:\n\nThe agent re-introduced itself mid-call.\n\nIt carried an inbound-support posture into an outbound sales conversation.\n\nIt sounded scripted because too much dialogue was baked directly into the prompt.\n\nThe fix was not \u201cmake it more human.\u201d\n\nIt was tighter role control, cleaner conversational boundaries, and removing prompt patterns that forced unnatural responses.\n\nThat is where production voice AI gets real: not in demos, but in transcripts where every awkward turn is visible.",
+      "cta": "If you are building voice AI, start with the transcripts.",
+      "image_concept": "A split-screen transcript view showing awkward voice-agent lines on the left and refined outbound conversation rules on the right.",
+      "status": "pending_approval",
+      "id": "post_0009",
+      "timestamp": "2026-07-02T06:15:04.586552+00:00"
     }
   ]
 }
