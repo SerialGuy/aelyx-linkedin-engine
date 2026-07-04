@@ -51,6 +51,84 @@
       "status": "pending_approval",
       "id": "post_0004",
       "timestamp": "2026-06-29T07:11:34.913300+00:00"
+    },
+    {
+      "angle": "founder_perspective",
+      "hook_style": "scene_setting",
+      "visual_style": "portrait_style_illustration",
+      "client": null,
+      "hook_text": "One call was about a Hinglish outbound voice agent in Indore. The next was about clinical briefing workflows for a US clinic.",
+      "body": "That contrast has shaped how we build Aelyx.\n\nIndian SMBs often need AI to sit inside very practical business realities: WhatsApp follow-ups, voice calls, CRM discipline, ERP context, and quotation workflows.\n\nUS healthcare buyers ask different questions: how a voice agent behaves, how a briefing tool supports the clinic team, and how safely the workflow fits into daily operations.\n\nThe technology stack may share patterns, but the product thinking cannot be copied and pasted.\n\nBuilding from Indore for both markets has forced us to stay specific. Language matters. Call behavior matters. Existing software matters. The handoff from automation to a human matters.\n\nThat is the work I trust most: not demos that look impressive, but systems that survive the actual operating environment.",
+      "cta": "If you are building with AI, start with the workflow, not the buzzword.",
+      "image_concept": "A split-screen image of an Aelyx workspace: one monitor showing a WhatsApp/CRM workflow for an Indian business, another showing a clinic briefing interface, with a subtle Indore-to-US connection line in the background.",
+      "status": "pending_approval",
+      "id": "post_0005",
+      "timestamp": "2026-06-29T11:43:32.883939+00:00"
+    },
+    {
+      "angle": "case_study",
+      "hook_style": "blunt_statement",
+      "visual_style": "data_moment",
+      "client": null,
+      "hook_text": "Messy quotations slow sales.",
+      "body": "For a commercial kitchen equipment dealer, the problem was not lead generation.\n\nIt was what happened after interest came in.\n\nRough quotations had to be converted into proper client-ready proposals. Margins needed to be checked before the quote moved forward. The sales process needed structure without forcing the team into a rigid new workflow.\n\nAelyx built a full AI + ERP proposal and sales package around that gap.\n\nTwo tools became central:\n\nA Quotation & Margin Analyzer.\nA Rough-to-Proper Quotation Generator.\n\nThe outcome was practical: a quoting workflow that could support the sales team more consistently, and a package now being expanded for other Indore retail showroom use cases.",
+      "cta": "If your sales process depends on manual quotation cleanup, it is worth examining.",
+      "image_concept": "A side-by-side screen mockup showing a rough handwritten-style quotation on the left and a clean ERP-generated proposal with margin checks on the right.",
+      "status": "pending_approval",
+      "id": "post_0006",
+      "timestamp": "2026-06-29T11:44:26.052914+00:00"
+    },
+    {
+      "angle": "product_education",
+      "hook_style": "contrarian_claim",
+      "visual_style": "minimal_typographic",
+      "client": null,
+      "hook_text": "More messages won\u2019t fix a broken WhatsApp sales process.",
+      "body": "For many retail, real estate, education, clinic, restaurant, and finance teams, WhatsApp is already the busiest channel.\n\nThe problem is not adoption.\n\nThe problem is what happens after the first message: inquiries sit in personal chats, follow-ups depend on memory, and every team member answers the same questions slightly differently.\n\nWagent was built for that gap.\n\nIt turns WhatsApp from a loose conversation channel into an automation layer around the actual buyer journey \u2014 capturing intent, moving the conversation forward, and keeping the team from treating every lead like a fresh manual task.\n\nNot as a generic chatbot.\n\nAs vertical-specific WhatsApp automation designed for the way Indian businesses already sell, support, and follow up.",
+      "cta": "If WhatsApp is where your pipeline lives, it deserves a system behind it.",
+      "image_concept": "A clean split-screen showing chaotic personal WhatsApp chats on one side and an organized Wagent automation dashboard with retail, clinic, and real estate inquiry queues on the other.",
+      "status": "pending_approval",
+      "id": "post_0007",
+      "timestamp": "2026-06-30T06:38:04.599159+00:00"
+    },
+    {
+      "angle": "thought_leadership",
+      "hook_style": "specific_number",
+      "visual_style": "diagram_flow",
+      "client": null,
+      "hook_text": "4 connected systems will usually beat 1 impressive chatbot.",
+      "body": "In one retention build, the important work was not \u201cadding AI.\u201d\n\nIt was connecting four pieces that already had to act as one:\n\nAn AI Intelligence Brain.\nA voice agent.\nWhatsApp automation.\nA CRM dashboard.\n\nThen we tied the flow into the existing ACCOUNT GST ERP system and provisioned SIP telephony around it.\n\nThat is the difference between AI as a demo and AI as business infrastructure.\n\nA chatbot can answer.\nA connected system can remember, route, follow up, update records, and keep the next action visible to the team.\n\nMost businesses do not need more isolated AI tools.\nThey need fewer gaps between the tools they already depend on.",
+      "cta": "Build the workflow before you celebrate the model.",
+      "image_concept": "A clean workflow diagram showing an AI brain at the center connected to voice calls, WhatsApp, CRM dashboard, GST ERP, and SIP telephony.",
+      "status": "pending_approval",
+      "id": "post_0008",
+      "timestamp": "2026-07-01T06:50:58.841901+00:00"
+    },
+    {
+      "angle": "behind_the_build",
+      "hook_style": "before_after",
+      "visual_style": "before_after_split",
+      "client": null,
+      "hook_text": "Old state: a voice agent that could drift into call-centre theatre. New state: an outbound caller that stays in role.",
+      "body": "One of the harder parts of building voice agents is not the voice.\n\nIt is preventing behavioural drift.\n\nFor a Hinglish B2B outbound workflow in pest control, we had to refine the agent through live transcript analysis \u2014 not assumptions from a prompt document.\n\nThe issues were subtle but damaging:\n\nThe agent re-introduced itself mid-call.\n\nIt carried an inbound-support posture into an outbound sales conversation.\n\nIt sounded scripted because too much dialogue was baked directly into the prompt.\n\nThe fix was not \u201cmake it more human.\u201d\n\nIt was tighter role control, cleaner conversational boundaries, and removing prompt patterns that forced unnatural responses.\n\nThat is where production voice AI gets real: not in demos, but in transcripts where every awkward turn is visible.",
+      "cta": "If you are building voice AI, start with the transcripts.",
+      "image_concept": "A split-screen transcript view showing awkward voice-agent lines on the left and refined outbound conversation rules on the right.",
+      "status": "pending_approval",
+      "id": "post_0009",
+      "timestamp": "2026-07-02T06:15:04.586552+00:00"
+    },
+    {
+      "angle": "founder_perspective",
+      "hook_style": "question",
+      "visual_style": "annotated_screenshot_style",
+      "client": null,
+      "hook_text": "What changes when you build AI for an Indore showroom on Monday and a US dental clinic on Tuesday?",
+      "body": "You stop thinking in terms of \u201cAI features.\u201d\n\nYou start thinking in workflows.\n\nIn India, we often build around WhatsApp, voice calls, CRM gaps, ERP integrations, and teams that need automation without adding operational complexity.\n\nIn the US market, the expectations can shift toward clinical briefing tools, voice agents, and systems that fit into a more specialized operating environment.\n\nThe common thread is not geography.\n\nIt is context.\n\nAt Aelyx, building across both markets has made one thing clear to me: useful AI is not the most impressive demo. It is the system that understands how a business already works, then quietly makes the next step faster, clearer, or easier to execute.",
+      "cta": "Build for the workflow first.",
+      "image_concept": "A split-screen founder desk scene showing an Indore business workflow map on one side and a US dental clinic workflow map on the other, connected by a single AI systems diagram.",
+      "status": "pending_approval",
+      "id": "post_0010",
+      "timestamp": "2026-07-03T06:08:07.793318+00:00"
     }
   ]
 }
