@@ -35,6 +35,8 @@
     justify-content: space-between;
     padding: 20px 32px;
     border-bottom: 1px solid var(--line);
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
   .topbar .wordmark {
@@ -50,6 +52,107 @@
     color: var(--cream-dim);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+
+  .topbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .view-toggle {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .view-toggle button {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 14px;
+    background: transparent;
+    color: var(--cream-dim);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .view-toggle button.active {
+    background: var(--charcoal);
+    color: var(--cream);
+  }
+
+  .view-toggle button:hover:not(.active) {
+    opacity: 0.85;
+  }
+
+  .pending-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .manual-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px 12px;
+    background: rgba(201, 145, 79, 0.08);
+    border: 1px solid rgba(201, 145, 79, 0.22);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--cream-dim);
+  }
+
+  .manual-bar span {
+    flex: 1;
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: var(--charcoal-deep);
+    color: var(--cream-dim);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .icon-btn:hover {
+    color: var(--brass);
+    border-color: var(--brass-dim);
+    opacity: 1;
+  }
+
+  .icon-btn.copied {
+    color: #8FAF8A;
+    border-color: #8FAF8A;
+  }
+
+  .icon-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .visual-pane .image-tools {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    gap: 8px;
   }
 
   main {
@@ -235,7 +338,13 @@
 
 <div class="topbar">
   <div class="wordmark">aelyx <span>/</span> post review</div>
-  <div class="queue-position" id="queuePosition"></div>
+  <div class="topbar-controls">
+    <div class="view-toggle" id="viewToggle">
+      <button type="button" data-view="single" class="active">One at a time</button>
+      <button type="button" data-view="all">View all pending</button>
+    </div>
+    <div class="queue-position" id="queuePosition"></div>
+  </div>
 </div>
 
 <main id="main">
@@ -248,6 +357,13 @@
   const GITHUB_REPO = detectGithubRepo() || "SerialGuy/aelyx-linkedin-engine";
 
   let queue = [];
+  let viewMode = sessionStorage.getItem('aelyx_view_mode') || 'single';
+
+  const ICONS = {
+    copy: '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    image: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="m21 16-5-5L7 20"/></svg>',
+    download: '<svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>',
+  };
 
   function detectGithubRepo() {
     const meta = document.querySelector('meta[name="github-repo"]')?.content?.trim();
@@ -263,6 +379,104 @@
 
   function formatLabel(value) {
     return String(value || '').replace(/_/g, ' ');
+  }
+
+  function postText(post) {
+    return [post.hook_text, post.body, post.cta].filter(Boolean).join('\n\n');
+  }
+
+  function flashCopied(btn) {
+    btn.classList.add('copied');
+    const prev = btn.title;
+    btn.title = 'Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.title = prev;
+    }, 1600);
+  }
+
+  function makeIconButton(title, iconHtml, onClick) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'icon-btn';
+    btn.title = title;
+    btn.innerHTML = iconHtml;
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  async function svgToPngBlob(svgString) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1200;
+        canvas.height = 1200;
+        canvas.getContext('2d').drawImage(img, 0, 0, 1200, 1200);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG conversion failed')), 'image/png');
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('Could not render image'));
+      };
+      img.src = url;
+    });
+  }
+
+  async function copyPostText(post, btn) {
+    try {
+      await navigator.clipboard.writeText(postText(post));
+      flashCopied(btn);
+    } catch (_) {
+      alert('Could not copy text — your browser may block clipboard access on this page.');
+    }
+  }
+
+  async function copyPostImage(post, btn) {
+    try {
+      const blob = await svgToPngBlob(post.svg);
+      if (navigator.clipboard?.write && window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        flashCopied(btn);
+        return;
+      }
+      downloadPostImage(post);
+      flashCopied(btn);
+    } catch (_) {
+      try {
+        downloadPostImage(post);
+        flashCopied(btn);
+      } catch (err) {
+        alert(err.message || 'Could not copy image. Try Download instead.');
+      }
+    }
+  }
+
+  function downloadPostImage(post) {
+    const link = document.createElement('a');
+    link.download = `${post.id || 'aelyx-post'}.png`;
+    svgToPngBlob(post.svg).then(blob => {
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+  }
+
+  function setupViewToggle() {
+    const toggle = document.getElementById('viewToggle');
+    for (const btn of toggle.querySelectorAll('button')) {
+      btn.classList.toggle('active', btn.dataset.view === viewMode);
+      btn.onclick = () => {
+        viewMode = btn.dataset.view;
+        sessionStorage.setItem('aelyx_view_mode', viewMode);
+        for (const b of toggle.querySelectorAll('button')) {
+          b.classList.toggle('active', b.dataset.view === viewMode);
+        }
+        renderCurrent();
+      };
+    }
   }
 
   async function loadQueue() {
@@ -307,6 +521,7 @@
     const main = document.getElementById('main');
     const posRow = document.getElementById('queuePosition');
     main.replaceChildren();
+    setupViewToggle();
 
     if (pending.length === 0) {
       posRow.textContent = '';
@@ -320,14 +535,40 @@
       return;
     }
 
-    const post = pending[0];
-    posRow.textContent = `1 of ${pending.length} pending`;
+    posRow.textContent = `${pending.length} pending`;
 
+    if (viewMode === 'all') {
+      const stack = document.createElement('div');
+      stack.className = 'pending-stack';
+      pending.forEach((post, index) => {
+        stack.appendChild(buildReviewCard(post, { showIndex: index + 1, total: pending.length }));
+      });
+      main.appendChild(stack);
+    } else {
+      main.appendChild(buildReviewCard(pending[0], { showIndex: 1, total: pending.length }));
+    }
+
+    renderArchive(main);
+  }
+
+  function buildReviewCard(post, { showIndex, total }) {
     const card = document.createElement('div');
     card.className = 'review-card';
+    card.dataset.postId = post.id;
 
     const visualPane = document.createElement('div');
     visualPane.className = 'visual-pane';
+
+    const imageTools = document.createElement('div');
+    imageTools.className = 'image-tools';
+    const copyImgBtn = makeIconButton('Copy image (PNG)', ICONS.image, () => copyPostImage(post, copyImgBtn));
+    const dlImgBtn = makeIconButton('Download image (PNG)', ICONS.download, () => {
+      downloadPostImage(post);
+      flashCopied(dlImgBtn);
+    });
+    imageTools.append(copyImgBtn, dlImgBtn);
+    visualPane.appendChild(imageTools);
+
     const svgHost = document.createElement('div');
     svgHost.className = 'svg-host';
     mountSvg(svgHost, post.svg);
@@ -335,11 +576,19 @@
 
     const frameTag = document.createElement('div');
     frameTag.className = 'frame-tag';
-    frameTag.textContent = `aelyx · ${formatLabel(post.angle)}`;
+    frameTag.textContent = total > 1 ? `${showIndex} of ${total} · ${formatLabel(post.angle)}` : `aelyx · ${formatLabel(post.angle)}`;
     visualPane.appendChild(frameTag);
 
     const copyPane = document.createElement('div');
     copyPane.className = 'copy-pane';
+
+    const manualBar = document.createElement('div');
+    manualBar.className = 'manual-bar';
+    const manualHint = document.createElement('span');
+    manualHint.textContent = 'Manual post: copy text + image, paste into LinkedIn, then Approve to mark done.';
+    const copyTextBtn = makeIconButton('Copy post text', ICONS.copy, () => copyPostText(post, copyTextBtn));
+    manualBar.append(manualHint, copyTextBtn);
+    copyPane.appendChild(manualBar);
 
     const metaRow = document.createElement('div');
     metaRow.className = 'meta-row';
@@ -367,28 +616,38 @@
 
     const approveBtn = document.createElement('button');
     approveBtn.className = 'btn-approve';
-    approveBtn.id = 'approveBtn';
     approveBtn.type = 'button';
-    approveBtn.textContent = 'Approve & publish';
-    approveBtn.addEventListener('click', () => approvePost(post.id));
+    approveBtn.textContent = 'Approve & mark done';
+    approveBtn.addEventListener('click', () => approvePost(post.id, card));
 
     const skipBtn = document.createElement('button');
     skipBtn.className = 'btn-skip';
-    skipBtn.id = 'skipBtn';
     skipBtn.type = 'button';
     skipBtn.textContent = 'Skip';
-    skipBtn.addEventListener('click', () => skipPost(post.id));
+    skipBtn.addEventListener('click', () => skipPost(post.id, card));
 
     const banner = document.createElement('div');
     banner.className = 'status-banner';
-    banner.id = 'statusBanner';
 
     actions.append(approveBtn, skipBtn);
     copyPane.append(metaRow, hook, body, cta, actions, banner);
     card.append(visualPane, copyPane);
-    main.appendChild(card);
+    return card;
+  }
 
-    renderArchive(main);
+  function getCardControls(card) {
+    if (!card) return { approveBtn: null, skipBtn: null, banner: null };
+    return {
+      approveBtn: card.querySelector('.btn-approve'),
+      skipBtn: card.querySelector('.btn-skip'),
+      banner: card.querySelector('.status-banner'),
+    };
+  }
+
+  function setBusy(card, busy) {
+    const { approveBtn, skipBtn } = getCardControls(card);
+    if (approveBtn) approveBtn.disabled = busy;
+    if (skipBtn) skipBtn.disabled = busy;
   }
 
   function renderArchive(main) {
@@ -478,32 +737,25 @@
     throw new Error(`${res.status}: ${detail}`);
   }
 
-  function setBusy(busy) {
-    const approveBtn = document.getElementById('approveBtn');
-    const skipBtn = document.getElementById('skipBtn');
-    if (approveBtn) approveBtn.disabled = busy;
-    if (skipBtn) skipBtn.disabled = busy;
-  }
-
-  async function approvePost(postId) {
-    const banner = document.getElementById('statusBanner');
+  async function approvePost(postId, card) {
+    const { banner } = getCardControls(card);
     banner.textContent = 'Sending approval…';
-    setBusy(true);
+    setBusy(card, true);
 
     try {
       await dispatchWorkflow('approve_post', postId);
-      banner.textContent = 'Approved — publishing now. This page will update shortly.';
+      banner.textContent = 'Marked done — updating queue…';
       setTimeout(loadQueue, 4000);
     } catch (e) {
       banner.textContent = e.message || 'Approval failed. Try again.';
-      setBusy(false);
+      setBusy(card, false);
     }
   }
 
-  async function skipPost(postId) {
-    const banner = document.getElementById('statusBanner');
+  async function skipPost(postId, card) {
+    const { banner } = getCardControls(card);
     banner.textContent = 'Marking skipped…';
-    setBusy(true);
+    setBusy(card, true);
 
     try {
       await dispatchWorkflow('skip_post', postId);
@@ -511,7 +763,7 @@
       setTimeout(loadQueue, 4000);
     } catch (e) {
       banner.textContent = e.message || 'Skip failed. Try again.';
-      setBusy(false);
+      setBusy(card, false);
     }
   }
 
