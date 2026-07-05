@@ -129,6 +129,19 @@
       "status": "pending_approval",
       "id": "post_0010",
       "timestamp": "2026-07-03T06:08:07.793318+00:00"
+    },
+    {
+      "angle": "case_study",
+      "hook_style": "scene_setting",
+      "visual_style": "portrait_style_illustration",
+      "client": null,
+      "hook_text": "During a sales automation build for an Indore equipment dealer, the bottleneck showed up before the close: the quotation.",
+      "body": "The team was dealing with a very practical problem.\n\nRough quotation inputs had to become customer-ready documents. Margins needed checking before anything went out. And the sales process needed more structure than scattered follow-ups and manual judgment.\n\nAelyx built a full AI + ERP proposal and sales package around that workflow.\n\nTwo tools became central:\n\nA Quotation & Margin Analyzer to review pricing logic.\n\nA Rough-to-Proper Quotation Generator to turn incomplete quotation drafts into usable sales documents.\n\nThe outcome was not a flashy chatbot. It was a more controlled sales workflow: cleaner quotations, margin visibility, and a system now being adapted for other Indore retail showroom use cases.",
+      "cta": "If your sales team loses time between inquiry and quotation, that is often where automation should start.",
+      "image_concept": "A desk-level view of a retail sales counter with a rough handwritten quotation on one side and a clean generated quotation interface on a laptop beside it.",
+      "status": "pending_approval",
+      "id": "post_0011",
+      "timestamp": "2026-07-05T06:23:53.491908+00:00"
     }
   ]
 }
