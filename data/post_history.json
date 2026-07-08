@@ -142,6 +142,19 @@
       "status": "pending_approval",
       "id": "post_0011",
       "timestamp": "2026-07-05T06:23:53.491908+00:00"
+    },
+    {
+      "angle": "product_education",
+      "hook_style": "blunt_statement",
+      "visual_style": "data_moment",
+      "client": null,
+      "hook_text": "Manual WhatsApp follow-up does not scale.",
+      "body": "For many businesses, WhatsApp is where serious customer intent first shows up.\n\nA property inquiry.\nA clinic appointment question.\nA restaurant booking.\nA course admission lead.\nA retail product query.\n\nThe problem is that WhatsApp usually becomes dependent on whoever is available at that moment.\n\nIf the reply is delayed, the lead cools.\nIf the context is missed, the conversation resets.\nIf follow-up is manual, it becomes inconsistent.\n\nWagent is Aelyx\u2019s WhatsApp automation SaaS built for verticals like retail, real estate, education, clinics, restaurants and finance.\n\nIt is not meant to replace the business relationship.\n\nIt is meant to make the first layer of response, routing and follow-up more consistent, so teams are not running growth from an overloaded inbox.",
+      "cta": "If WhatsApp is already your front desk, it may be time to systemise it.",
+      "image_concept": "A clean split-screen visual showing a cluttered WhatsApp inbox on one side and an organized Wagent-style automation flow for inquiries, replies and follow-ups on the other.",
+      "status": "pending_approval",
+      "id": "post_0012",
+      "timestamp": "2026-07-08T05:35:24.649641+00:00"
     }
   ]
 }
