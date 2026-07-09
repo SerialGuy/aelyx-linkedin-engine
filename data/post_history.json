@@ -155,6 +155,19 @@
       "status": "pending_approval",
       "id": "post_0012",
       "timestamp": "2026-07-08T05:35:24.649641+00:00"
+    },
+    {
+      "angle": "thought_leadership",
+      "hook_style": "contrarian_claim",
+      "visual_style": "minimal_typographic",
+      "client": null,
+      "hook_text": "The best AI projects usually do not start with a chatbot.",
+      "body": "They start with a business constraint that is already costing time, consistency, or trust.\n\nA quotation that has to be cleaned up before it can be sent.\n\nAn outbound voice agent that must stay in role instead of sounding like a call-centre script.\n\nA WhatsApp follow-up flow that needs to connect with CRM data, not sit in isolation.\n\nAn IoT accuracy check that becomes strong enough to support a contract clause.\n\nThis is where AI becomes useful: not as a shiny interface, but as operating infrastructure.\n\nAt Aelyx, the strongest builds are the ones where automation touches the real workflow: sales, service, finance, operations, clinical briefing, or manufacturing assurance.\n\nIf the AI cannot fit into the process, the demo does not matter.",
+      "cta": "Start with the bottleneck, not the bot.",
+      "image_concept": "A clean workflow diagram showing a business bottleneck branching into CRM, WhatsApp, voice agent, ERP, and IoT checkpoints, with the bottleneck highlighted in red.",
+      "status": "pending_approval",
+      "id": "post_0013",
+      "timestamp": "2026-07-09T06:25:58.668076+00:00"
     }
   ]
 }
