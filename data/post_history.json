@@ -168,6 +168,19 @@
       "status": "pending_approval",
       "id": "post_0013",
       "timestamp": "2026-07-09T06:25:58.668076+00:00"
+    },
+    {
+      "angle": "behind_the_build",
+      "hook_style": "specific_number",
+      "visual_style": "diagram_flow",
+      "client": null,
+      "hook_text": "4 systems had to behave like one retention engine.",
+      "body": "The hard part was not building a voice agent.\n\nIt was making the AI Intelligence Brain, voice agent, WhatsApp automation, and CRM dashboard stay aligned with the same customer context.\n\nThat meant connecting automation to an existing ACCOUNT GST ERP system, provisioning SIP telephony, and making sure every channel knew what had already happened.\n\nIf the voice agent calls without CRM context, it repeats itself.\n\nIf WhatsApp follow-up ignores ERP data, it feels generic.\n\nIf the dashboard is not connected, the team cannot trust the workflow.\n\nThis is where AI builds become engineering work: state management, system integration, handoff logic, and operational visibility.\n\nA good automation stack is not a collection of tools. It is one coordinated operating layer.",
+      "cta": "If your AI workflow breaks at handoffs, that is the real place to start.",
+      "image_concept": "A clean system diagram showing an AI brain connected to voice calling, WhatsApp automation, CRM dashboard, SIP telephony, and an ERP database.",
+      "status": "pending_approval",
+      "id": "post_0014",
+      "timestamp": "2026-07-10T06:25:15.823960+00:00"
     }
   ]
 }
