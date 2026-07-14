@@ -181,6 +181,19 @@
       "status": "pending_approval",
       "id": "post_0014",
       "timestamp": "2026-07-10T06:25:15.823960+00:00"
+    },
+    {
+      "angle": "founder_perspective",
+      "hook_style": "before_after",
+      "visual_style": "before_after_split",
+      "client": null,
+      "hook_text": "Old pain: every business wanted \u201cAI\u201d in isolation. New reality: they need intelligence stitched into the tools they already run.",
+      "body": "Building Aelyx from Indore has taught me that the market is not split into \u201cIndia problems\u201d and \u201cUS problems.\u201d\n\nIt is split into workflow problems.\n\nAn Indian showroom may need WhatsApp automation, a lead-focused CRM, and a voice agent working together.\n\nA manufacturer may need IoT accuracy strong enough to support contract terms.\n\nA US clinic may need voice and briefing workflows designed around clinical context.\n\nDifferent industries. Different geographies. Same discipline.\n\nDo not start with the model.\nStart with the messy operating reality: calls, follow-ups, quotations, ERP entries, missed context, repeated work.\n\nThat is where useful AI gets built.",
+      "cta": "Build close to the workflow, and the technology becomes much easier to trust.",
+      "image_concept": "A founder\u2019s desk in Indore showing two open workflow maps side by side: one for an Indian SMB sales process and one for a US clinic operations process.",
+      "status": "pending_approval",
+      "id": "post_0015",
+      "timestamp": "2026-07-14T05:13:37.676725+00:00"
     }
   ]
 }
