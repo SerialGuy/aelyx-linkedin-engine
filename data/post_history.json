@@ -194,6 +194,19 @@
       "status": "pending_approval",
       "id": "post_0015",
       "timestamp": "2026-07-14T05:13:37.676725+00:00"
+    },
+    {
+      "angle": "case_study",
+      "hook_style": "question",
+      "visual_style": "annotated_screenshot_style",
+      "client": null,
+      "hook_text": "Would you put machine performance into a contract if you could not measure it reliably?",
+      "body": "For one manufacturing build, the problem was not \u201cadd AI.\u201d\n\nThe business needed confidence around RPM accuracy \u2014 strong enough to be reflected in commercial terms, not just internal dashboards.\n\nAelyx built an IoT-led layer that could support RPM accuracy guarantees inside the contract itself.\n\nThat changes the role of automation.\n\nIt is no longer a back-office tool or a reporting add-on. It becomes part of how the company sells, commits, and protects trust with the buyer.\n\nThis is where AI and IoT become useful: when the output is concrete enough to change a business promise.",
+      "cta": "Build intelligence where the business promise depends on it.",
+      "image_concept": "A CNC machine shop floor with an RPM sensor overlay and a contract document beside it highlighting an accuracy guarantee clause.",
+      "status": "pending_approval",
+      "id": "post_0016",
+      "timestamp": "2026-07-15T05:13:41.975475+00:00"
     }
   ]
 }
