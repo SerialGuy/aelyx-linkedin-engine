@@ -43,7 +43,7 @@ aelyx-linkedin-engine/
    - Variables tab: set `LLM_PROVIDER` to `anthropic`, `openai`, or `gemini` — this is what actually controls which one runs. Not a secret, since it's not sensitive.
    - Also on the Variables tab (optional): `POSTS_PER_DAY` — how many fresh posts to generate each run. Defaults to `1` if unset.
    - LinkedIn-related secrets (`LINKEDIN_ACCESS_TOKEN`, `LINKEDIN_ORG_URN`) — leave blank until your Community Management API approval comes through.
-3. **Enable GitHub Pages** on this repo (Settings → Pages → set source to `/dashboard`) — this gives you the approval link.
+3. **Host the dashboard on Cloudflare Pages** (repo can stay private): connect the repo, build command empty, output directory `docs`, production branch `main`. Then protect the Pages domain with Cloudflare Access (Zero Trust → Access → Applications) so only your email can open it.
 4. **That's it.** The workflow in `.github/workflows/daily-post.yml` runs automatically every day. No server, no manual trigger needed.
 
 ### Switching AI providers later
