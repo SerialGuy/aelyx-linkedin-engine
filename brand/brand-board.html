@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Aelyx brand board v1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@500;800&family=JetBrains+Mono:wght@500&family=Bodoni+Moda:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F1ECE2;--ink:#0C0C0D;--stone:#D9D6CE;--blue:#2A32F0;--ice:#E3E5FC;
+--serif:'Instrument Serif',serif;--sans:'Inter Tight',sans-serif;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0}
+body{background:#fff;font-family:var(--sans);color:var(--ink);padding:40px;max-width:1500px;margin:auto}
+h6{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;margin:44px 0 14px;color:#777}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.sw{flex:1;min-width:200px;height:210px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;font:500 12px var(--mono)}
+.sw b{font:400 30px var(--serif)}
+.type{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.type div{background:var(--paper);padding:24px;min-height:190px}
+.type small{font:500 11px var(--mono);color:#777;letter-spacing:.1em}
+/* posts */
+.posts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.post{aspect-ratio:4/5;position:relative;overflow:hidden;padding:7% 7%;display:flex;flex-direction:column;container-type:inline-size}
+.post .top,.post .bot{display:flex;justify-content:space-between;align-items:center;font:500 2.6cqw var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.post .top svg{width:9cqw;height:9cqw}
+.post .mid{flex:1;display:flex;flex-direction:column;justify-content:center}
+.post .rule{height:1px;background:currentColor;opacity:.9;margin:0}
+.post .tick{position:absolute;width:3cqw;height:3cqw;border:0 solid currentColor}
+.t1{top:3.4cqw;left:3.4cqw;border-width:1px 0 0 1px}.t2{top:3.4cqw;right:3.4cqw;border-width:1px 1px 0 0}
+.t3{bottom:3.4cqw;left:3.4cqw;border-width:0 0 1px 1px}.t4{bottom:3.4cqw;right:3.4cqw;border-width:0 1px 1px 0}
+.h{font:400 14.5cqw/.95 var(--serif);letter-spacing:-.02em}
+.h i{color:var(--blue)}
+.cap{font:500 3.4cqw/1.4 var(--sans);max-width:80%}
+.paper{background:var(--paper)}.inkbg{background:var(--ink);color:var(--paper)}.blueb{background:var(--blue);color:var(--paper)}.stoneb{background:var(--stone)}
+.inkbg .h i{color:#7C82FF}
+.big{font:800 40cqw/.85 var(--sans);letter-spacing:-.05em}
+.lbl{font:500 2.8cqw var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:5cqw}
+.cols>div{border-top:1px solid currentColor;padding-top:2cqw}
+.cols p{font:400 7cqw/1 var(--serif);margin-top:2cqw}
+.step{display:flex;gap:3cqw;align-items:baseline;border-top:1px solid currentColor;padding:2.4cqw 0;font:800 5.4cqw var(--sans);letter-spacing:-.02em}
+.step span{font:500 2.6cqw var(--mono);letter-spacing:.1em}
+.rules li{margin:6px 0 6px 18px;font-size:14px;line-height:1.5}
+.B{--paper:#F5F1E6;--ink:#0B0B0B;--blue:#FFC800;--stone:#E6DFC8;--ice:#FFF1B8;--serif:'Bodoni Moda',serif;--mono:'IBM Plex Mono',monospace}
+.B .h{font-weight:500;letter-spacing:-.03em;line-height:1}
+.B .h i{color:var(--ink);background:var(--blue);padding:0 .1em}
+.B .inkbg .h i{background:none;color:var(--blue)}
+.B .cols p{font-weight:500}
+.B .cols i,.B .type i{color:inherit}
+.B .type i[style]{color:inherit!important;background:var(--blue)}
+</style></head><body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="logo" stroke="currentColor" stroke-width="34" stroke-linejoin="round" fill="currentColor">
+<polygon points="680,470 1200,470 1043,645 535,645"/>
+<polygon points="645,845 645,1050 465,1220 445,1200 445,1020"/>
+<rect x="850" y="850" width="255" height="255" rx="14" stroke-width="20"/>
+<polygon points="1487,745 1510,765 1510,1275 1331,1450 1310,1430 1310,908"/>
+<polygon points="908,1310 1090,1310 932,1510 770,1510"/>
+</g></defs></svg>
+
+<h2 style="font:800 28px var(--sans);margin:0 0 6px">Option A · Signal blue</h2><div id="A"><h6>Aelyx editorial system · v1 for approval</h6>
+<div style="display:flex;gap:40px;align-items:center;flex-wrap:wrap">
+<div style="background:var(--stone);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="background:var(--ink);color:var(--paper);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="background:var(--blue);color:var(--paper);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="font:400 64px var(--serif)">Aelyx <i style="color:var(--blue)">intelligence</i></div></div>
+
+<h6>Palette</h6>
+<div class="row">
+<div class="sw" style="background:var(--paper)"><b>Paper</b><span>#F1ECE2<br>60% · default canvas</span></div>
+<div class="sw" style="background:var(--ink);color:var(--paper)"><b>Ink</b><span>#0C0C0D<br>text + dark canvas</span></div>
+<div class="sw" style="background:var(--blue);color:var(--paper)"><b>Signal blue</b><span>#2A32F0<br>10% · one accent per post</span></div>
+<div class="sw" style="background:var(--stone)"><b>Stone</b><span>#D9D6CE<br>alt canvas, from logo tile</span></div>
+<div class="sw" style="background:var(--ice)"><b>Ice</b><span>#E3E5FC<br>soft panels only</span></div>
+</div>
+
+<h6>Type</h6>
+<div class="type">
+<div><small>DISPLAY · INSTRUMENT SERIF</small><p style="font:400 64px/1 var(--serif);margin-top:14px">The <i style="color:var(--blue)">hidden</i> cost of manual</p></div>
+<div><small>BODY + NUMBERS · INTER TIGHT 500/800</small><p style="font:800 56px/1 var(--sans);letter-spacing:-.04em;margin-top:14px">340 hrs saved.</p></div>
+<div><small>LABELS · JETBRAINS MONO</small><p style="font:500 14px/1.8 var(--mono);margin-top:14px;letter-spacing:.1em">AELYX // 004<br>CASE FILE · RETENTION<br>SYSTEMS THAT SCALE</p></div>
+</div>
+
+<h6>Four reusable layouts (4:5 portrait, works on LinkedIn now and Instagram later)</h6>
+<div class="posts">
+
+<div class="post paper"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 001</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">01 · Statement</div><div class="h">The best AI projects don't start with a <i>chatbot.</i></div></div>
+<div class="bot"><span>Thought leadership</span><span>aelyx.ai</span></div></div>
+
+<div class="post inkbg"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 002</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:1cqw;color:#7C82FF">02 · Data moment</div><div class="big">4<span style="color:#7C82FF">×</span></div><div class="cap" style="margin-top:3cqw">faster lead response once four disconnected tools behaved like one system.</div></div>
+<div class="bot"><span>Case file</span><span>aelyx.ai</span></div></div>
+
+<div class="post stoneb"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 003</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">03 · Before / after</div>
+<div class="cols"><div><span class="lbl">Before</span><p>AI in <i>isolation</i></p></div><div style="color:var(--blue)"><span class="lbl">After</span><p>AI inside the tools you <i>run</i></p></div></div></div>
+<div class="bot"><span>Product education</span><span>aelyx.ai</span></div></div>
+
+<div class="post blueb"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 004</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">04 · System</div>
+<div class="step"><span>01</span>Capture</div><div class="step"><span>02</span>Qualify</div><div class="step"><span>03</span>Follow up</div><div class="step"><span>04</span>Retain</div><div class="rule"></div></div>
+<div class="bot"><span>Behind the build</span><span>aelyx.ai</span></div></div>
+
+</div>
+
+<h6>Rules the engine will enforce</h6>
+<ul class="rules">
+<li>The model never draws. It only fills fields (headline, emphasis word, number, steps); Python renders the layout from locked tokens, so every post is on-brand.</li>
+<li>Always: logo top-left, "AELYX // n" index top-right, corner ticks, mono footer with content type and aelyx.ai.</li>
+<li>One italic serif emphasis word per headline, in Signal blue (or light blue on Ink). Nothing else is blue.</li>
+<li>Canvas rotates Paper, Ink, Stone, Signal blue, with Paper and Ink the most frequent. No gradients, no stock imagery, no robot or brain art.</li>
+</ul>
+</div><hr style="margin:60px 0 40px"><h2 style="font:800 28px var(--sans);margin:0 0 6px">Option B · Bumblebee (matches aelyx.ai fonts)</h2><div id="B" class="B"><h6>Aelyx editorial system · bumblebee</h6>
+<div style="display:flex;gap:40px;align-items:center;flex-wrap:wrap">
+<div style="background:var(--stone);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="background:var(--ink);color:var(--paper);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="background:var(--blue);color:var(--ink);width:150px;height:150px;border-radius:20px;display:grid;place-items:center"><svg viewBox="300 300 1400 1400" width="110"><use href="#logo"/></svg></div>
+<div style="font:400 64px var(--serif)">Aelyx <i style="background:var(--blue);padding:1.5cqw;margin:-1.5cqw">intelligence</i></div></div>
+
+<h6>Palette</h6>
+<div class="row"><div class="sw" style="background:var(--paper)"><b>Paper</b><span>#F5F1E6<br>60% · default canvas</span></div><div class="sw" style="background:var(--ink);color:var(--paper)"><b>Black</b><span>#0B0B0B<br>exact aelyx.ai black</span></div><div class="sw" style="background:var(--blue);color:var(--ink)"><b>Bumblebee</b><span>#FFC800<br>10% · accent only</span></div><div class="sw" style="background:var(--stone)"><b>Sand</b><span>#E6DFC8<br>alt canvas</span></div><div class="sw" style="background:var(--ice)"><b>Butter</b><span>#FFF1B8<br>soft panels only</span></div></div>
+
+<h6>Type</h6>
+<div class="type">
+<div><small>DISPLAY · BODONI MODA (SITE)</small><p style="font:400 64px/1 var(--serif);margin-top:14px">The <i style="background:var(--blue);padding:1.5cqw;margin:-1.5cqw">hidden</i> cost of manual</p></div>
+<div><small>BODY + NUMBERS · INTER TIGHT (SITE)</small><p style="font:800 56px/1 var(--sans);letter-spacing:-.04em;margin-top:14px">340 hrs saved.</p></div>
+<div><small>LABELS · IBM PLEX MONO (SITE)</small><p style="font:500 14px/1.8 var(--mono);margin-top:14px;letter-spacing:.1em">AELYX // 004<br>CASE FILE · RETENTION<br>SYSTEMS THAT SCALE</p></div>
+</div>
+
+<h6>Four reusable layouts (4:5 portrait, works on LinkedIn now and Instagram later)</h6>
+<div class="posts">
+
+<div class="post paper"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 001</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">01 · Statement</div><div class="h">The best AI projects don't start with a <i>chatbot.</i></div></div>
+<div class="bot"><span>Thought leadership</span><span>aelyx.ai</span></div></div>
+
+<div class="post inkbg"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 002</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:1cqw;color:#FFC800">02 · Data moment</div><div class="big">4<span style="color:#FFC800">×</span></div><div class="cap" style="margin-top:3cqw">faster lead response once four disconnected tools behaved like one system.</div></div>
+<div class="bot"><span>Case file</span><span>aelyx.ai</span></div></div>
+
+<div class="post stoneb"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 003</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">03 · Before / after</div>
+<div class="cols"><div><span class="lbl">Before</span><p>AI in <i>isolation</i></p></div><div style="background:var(--blue);padding:1.5cqw;margin:-1.5cqw"><span class="lbl">After</span><p>AI inside the tools you <i>run</i></p></div></div></div>
+<div class="bot"><span>Product education</span><span>aelyx.ai</span></div></div>
+
+<div class="post blueb"><i class="tick t1"></i><i class="tick t2"></i><i class="tick t3"></i><i class="tick t4"></i>
+<div class="top"><svg viewBox="300 300 1400 1400"><use href="#logo"/></svg><span>Aelyx // 004</span></div>
+<div class="mid"><div class="lbl" style="margin-bottom:3cqw">04 · System</div>
+<div class="step"><span>01</span>Capture</div><div class="step"><span>02</span>Qualify</div><div class="step"><span>03</span>Follow up</div><div class="step"><span>04</span>Retain</div><div class="rule"></div></div>
+<div class="bot"><span>Behind the build</span><span>aelyx.ai</span></div></div>
+
+</div>
+
+<h6>Rules the engine will enforce</h6>
+<ul class="rules">
+<li>The model never draws. It only fills fields (headline, emphasis word, number, steps); Python renders the layout from locked tokens, so every post is on-brand.</li>
+<li>Always: logo top-left, "AELYX // n" index top-right, corner ticks, mono footer with content type and aelyx.ai.</li>
+<li>One italic serif emphasis word per headline, in Signal blue (or light blue on Ink). Nothing else is blue.</li>
+<li>Canvas rotates Paper, Ink, Stone, Signal blue, with Paper and Ink the most frequent. No gradients, no stock imagery, no robot or brain art.</li>
+</ul>
+</div>
+</body></html>

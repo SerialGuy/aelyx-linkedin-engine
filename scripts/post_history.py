@@ -31,14 +31,9 @@ HOOK_STYLES = [
     "blunt_statement",       # short, declarative, no preamble
 ]
 
-VISUAL_STYLES = [
-    "minimal_typographic",   # text-led, big type, single accent color, lots of negative space
-    "diagram_flow",          # a clean process/architecture diagram, not a generic chart
-    "before_after_split",    # split-panel visual contrast
-    "annotated_screenshot_style",  # mockup-style annotated UI/data callout
-    "portrait_style_illustration", # custom illustrative scene, not stock-photo-like
-    "data_moment",           # one real number, presented as the hero of the image — not a chart
-]
+from brand_layouts import LAYOUTS, CAROUSEL_ONLY
+
+VISUAL_STYLES = [l for l in LAYOUTS if l not in CAROUSEL_ONLY]  # one entry per brand layout; rotation picks the least recently used
 
 
 def load_history() -> dict:

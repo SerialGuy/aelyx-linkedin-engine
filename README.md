@@ -61,3 +61,11 @@ Edit `data/source_material.md` any time you want to feed it new case studies, cl
 ## LinkedIn API approval status
 
 Posting only goes live automatically once your Community Management API application is approved (apply at developer.linkedin.com — organizational `w_organization_social` scope). Until then, every generated post still gets created and shows up on the dashboard, marked "Ready — post manually." Once `LINKEDIN_ACCESS_TOKEN` is set as a secret, `publish.py` switches to auto-publish on approval instead of just queuing.
+
+## Roadmap (later sessions)
+
+- **Order of work:** Instagram automation first, then LinkedIn automation, then the MCP server.
+- **Instagram output**: same brand system, 4:5 portrait posts and carousels, plus platform-specific captions/hashtags.
+- **Content strategy**: define pillars, cadence and a measurable plan so the engine runs flawlessly end to end.
+- **MCP server for the generation system**: expose "generate post / carousel for topic X" (brand layouts, image assets, queue) and "publish to LinkedIn / Instagram" as MCP tools, so Claude or ChatGPT can create and post from a single prompt. Starts after Instagram automation.
+- **LinkedIn automation without the official API**: Meta/LinkedIn is not granting Community Management API access, so figure out a reliable alternative path once Instagram automation is done.

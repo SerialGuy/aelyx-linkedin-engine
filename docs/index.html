@@ -405,15 +405,19 @@
     return btn;
   }
 
+  let FONTS_CSS = '';
+  const withFonts = svg => svg.replace('<!--AELYX_FONTS-->', `<style>${FONTS_CSS}</style>`);
+
   async function svgToPngBlob(svgString) {
+    svgString = withFonts(svgString);
     return new Promise((resolve, reject) => {
       const img = new Image();
       const url = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        canvas.width = 1200;
-        canvas.height = 1200;
-        canvas.getContext('2d').drawImage(img, 0, 0, 1200, 1200);
+        canvas.width = 1080;
+        canvas.height = 1350;
+        canvas.getContext('2d').drawImage(img, 0, 0, 1080, 1350);
         URL.revokeObjectURL(url);
         canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG conversion failed')), 'image/png');
       };
@@ -454,13 +458,20 @@
     }
   }
 
+  const slidesOf = post => (post.slides && post.slides.length ? post.slides : [post.svg]);
+  const currentSvg = post => slidesOf(post)[post._slide || 0];
+
+  // Downloads every slide of a carousel (one PNG each), or the single image.
   function downloadPostImage(post) {
-    const link = document.createElement('a');
-    link.download = `${post.id || 'aelyx-post'}.png`;
-    svgToPngBlob(post.svg).then(blob => {
-      link.href = URL.createObjectURL(blob);
-      link.click();
-      URL.revokeObjectURL(link.href);
+    const all = slidesOf(post);
+    all.forEach((svg, i) => {
+      svgToPngBlob(svg).then(blob => {
+        const link = document.createElement('a');
+        link.download = `${post.id || 'aelyx-post'}${all.length > 1 ? '-' + String(i + 1).padStart(2, '0') : ''}.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
     });
   }
 
@@ -484,6 +495,7 @@
       const res = await fetch('data/queue.json?_=' + Date.now());
       if (!res.ok) throw new Error(`Could not load queue (${res.status})`);
       queue = await res.json();
+      try { FONTS_CSS = await (await fetch('data/fonts.css')).text(); } catch (e) {}
       renderCurrent();
     } catch (err) {
       document.getElementById('main').innerHTML = `
@@ -507,7 +519,7 @@
 
     // Never inject SVG via innerHTML — embedded <style> tags break the page DOM
     // and silently prevent Approve/Skip buttons from mounting.
-    const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
+    const doc = new DOMParser().parseFromString(withFonts(svgString), 'image/svg+xml');
     const err = doc.querySelector('parsererror');
     if (err) {
       container.textContent = 'Preview unavailable (invalid SVG).';
